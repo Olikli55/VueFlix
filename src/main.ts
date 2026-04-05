@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createMemoryHistory, createRouter } from 'vue-router'
-import films from './films.vue'
-import detail from './detail.vue'
-import serials from './serials.vue'
+import films from './routers/films.vue'
+import detail from './routers/detail.vue'
+import serials from './routers/serials.vue'
 
 
 

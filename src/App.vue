@@ -1,6 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 
+
+import { ref, onMounted } from 'vue'
+import { supabase } from '../utils /supabase'
+
+
+const todos = ref([])
+
+async function getTodos() {
+  const { data } = await supabase.from('todos').select()
+  todos.value = data
+}
+
+onMounted(() => {
+  getTodos()
+})
 
 </script>
 
@@ -23,41 +37,7 @@ import { ref } from 'vue'
   </footer>
 </template>
 
-<style scoped>
-.selection {
-  background: #ab2409;
-  padding: 8px;
-  display: flex;
-  justify-content: center;
-}
+<style src="./Style/style.css" scoped>
 
-.SelectButton {
-  text-decoration: none;
-  background: #260909;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin: 0 6px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-main {
-  background: #751a0c;
-  background: linear-gradient(156deg, rgba(117, 26, 12, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(125, 10, 10, 1) 100%);
-  min-height: 60vh;
-  padding: 16px;
-  color: #fff;
-}
-
-footer {
-  background: #751a0c;
-  background: linear-gradient(360deg, rgba(117, 26, 12, 1) 0%, rgba(32, 5, 3, 1) 44%, rgba(20, 2, 2, 1) 100%, rgba(125, 10, 10, 1) 100%);
-  padding: 10px;
-  text-align: center;
-}
 </style>
-
 

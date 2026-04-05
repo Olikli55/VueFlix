@@ -1,0 +1,8 @@
+import { createClient } from '@supabase/supabase-js'
+
+// Vite exposes environment variables using import.meta.env
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+// This creates the connection to your database
+export const supabase = createClient(supabaseUrl, supabaseKey)

@@ -1,25 +1,23 @@
 <script setup lang="ts">
 
-import {computed} from "vue"
+import {computed, onMounted} from "vue"
 import {getData} from "../data/films.ts"
 import {ref} from "vue";
+import type {videoDB, videoUI} from "@/types.ts";
+import ItemListComponent from "@/components/itemListComponent.vue";
+import {fetchAll} from "@/database.ts";
 
-const data = ref(getData())
-console.log(data.value)
+const data = ref<videoDB[]>([])
+onMounted(async () => { //makes the onMounted asynchronous
+  data.value = await fetchAll('Films')  //wait to get the data
+})
+
 
 </script>
 
 
 <template>
-
-  <div class="films-container">
-   <div
-       class="film"
-       v-for="film in data">
-     {{ film.name}} <br> id: {{film.id}}
-     <RouterLink class="SelectButton" :to="'/detail/' + film.id"></RouterLink>
-   </div>
- </div>
+  <item-list-component :data="data" />
 </template>
 
 <style src="../Style/style.css" scoped>

@@ -2,19 +2,8 @@
 
 
 import { ref, onMounted } from 'vue'
-import { supabase } from '../utils /supabase'
-
-
-const todos = ref([])
-
-async function getTodos() {
-  const { data } = await supabase.from('todos').select()
-  todos.value = data
-}
-
-onMounted(() => {
-  getTodos()
-})
+import { supabase } from './database.ts'
+import type { videoDB } from './types.ts'
 
 </script>
 

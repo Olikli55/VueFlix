@@ -1,23 +1,22 @@
 <script setup lang="ts">
 
-import {computed} from "vue"
+import {computed, onMounted} from "vue"
 import {getData} from "../data/serials.ts"
 import {ref} from "vue";
+import type {videoDB} from "@/types.ts";
+import {fetchAll} from "@/database.ts";
+import ItemListComponent from "@/components/itemListComponent.vue";
 
-const data = ref(getData())
-console.log(data.value)
+const data = ref<videoDB[]>([])
+onMounted(async () => { //makes the onMounted asynchronous
+  data.value = await fetchAll('Serials')  //wait to get the data
+})
 
 </script>
 
 
 <template>
- <div class="serial-container">
-   <div
-       class="serial"
-       v-for="film in data">
-     {{ film.name}} <br> id: {{film.id}}
-   </div>
- </div>
+  <item-list-component :data="data" />
 </template>
 
 <style src="../Style/style.css" scoped>

@@ -10,7 +10,7 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
 
-export async function fetchById(videoType:string, id:string):Promise<videoDB>  {
+export async function fetchById(videoType:string, id:number):Promise<videoDB>  {
     const { data, error } = await supabase
             .from(videoType)
             .select('*')

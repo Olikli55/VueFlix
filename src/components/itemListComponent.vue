@@ -6,6 +6,7 @@ import type {videoDB} from "@/types.ts";
 
 defineProps<{
   data: videoDB[]; //list declared as type video
+  videoType: string;
 }>();
 
 </script>
@@ -16,7 +17,7 @@ defineProps<{
         v-for="item in data"
         :key="item.id">
       {{ item.name }} <br> id: {{ item.id }}
-      <RouterLink class="SelectButton" :to="'/detail/' + item.id"></RouterLink>
+      <RouterLink class="SelectButton" :to=" videoType +'/detail/' + item.id"></RouterLink>
     </div>
   </div>
 </template>

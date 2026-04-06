@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {computed, onMounted} from "vue"
-import {getData} from "../data/films.ts"
+import {getData} from "../../data/films.ts"
 import {ref} from "vue";
 import type {videoDB, videoUI} from "@/types.ts";
 import ItemListComponent from "@/components/itemListComponent.vue";
@@ -17,9 +17,9 @@ onMounted(async () => { //makes the onMounted asynchronous
 
 
 <template>
-  <item-list-component :data="data" />
+  <item-list-component :data="data" :videoType="'films'" />
 </template>
 
-<style src="../Style/style.css" scoped>
+<style src="../../Style/style.css" scoped>
 
 </style>

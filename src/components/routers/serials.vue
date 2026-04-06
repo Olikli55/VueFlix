@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {computed, onMounted} from "vue"
-import {getData} from "../data/serials.ts"
+import {getData} from "../../data/serials.ts"
 import {ref} from "vue";
 import type {videoDB} from "@/types.ts";
 import {fetchAll} from "@/database.ts";
@@ -16,9 +16,9 @@ onMounted(async () => { //makes the onMounted asynchronous
 
 
 <template>
-  <item-list-component :data="data" />
+  <item-list-component :data="data" :videoType="'serials'" />
 </template>
 
-<style src="../Style/style.css" scoped>
+<style src="../../Style/style.css" scoped>
 
 </style>

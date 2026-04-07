@@ -14,10 +14,13 @@ defineProps<{
 <template>
   <div class="items-container">
     <div class="item"
-        v-for="item in data"
-        :key="item.id">
-      {{ item.name }} <br> id: {{ item.id }}
-      <RouterLink class="SelectButton" :to=" videoType +'/detail/' + item.id"></RouterLink>
+         v-for="item in data"
+         :key="item.id">
+
+      <span class="item-name">{{ item.name }}</span>
+
+      <RouterLink class="SelectButton" :to=" videoType +'/detail/' + item.id">View</RouterLink>
+
     </div>
   </div>
 </template>

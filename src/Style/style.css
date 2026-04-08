@@ -71,3 +71,12 @@ footer {
     background: linear-gradient(360deg, #751a0c 0%, #200503 44%, #140202 100%, #7d0a0a 100%);
     text-align: center;
 }
+.selection {
+    display: flex;
+    justify-content: flex-start;  /* left-align nav links */
+    padding: 8px;
+    background: #ab2409;
+}
+.spacer {
+    flex: 1;
+}

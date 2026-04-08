@@ -7,7 +7,7 @@ import serials from '@/components/routers/serials.vue'
 import home from '@/components/routers/home.vue'
 import login from '@/components/routers/login.vue'
 import register from '@/components/routers/register.vue'
-
+import account from  '@/components/routers/account.vue'
 
 
 
@@ -17,6 +17,7 @@ const routes = [
     { path: '/home', component: home },
     { path: '/register', component: register  },
     { path: '/login', component: login },
+    { path: '/account', component: account },
     { path: '/films/detail/:id', component: detail, meta:{videoType:"films"}},
     { path: '/serials/detail/:id', component: detail , meta: {videoType:"serials"}},
 ]

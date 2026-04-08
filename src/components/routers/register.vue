@@ -1,28 +1,66 @@
 <script setup lang="ts">
+import {reactive, ref} from 'vue'
+import {addUserToDB} from "@/database.ts"
+import { useRouter } from 'vue-router'
+import bcrypt from 'bcryptjs'
+
+const router = useRouter()
+
+const form = reactive({
+  username: '',
+  password: '',
+  passwordAgain: ''
+})
+const isLoading = ref(false);
+
+async function handleSubmit() {
+  if(form.password !== form.passwordAgain){
+    console.log("password not the same");
+    return;}
+  if(form.username == form.password){
+    console.log("password cant be the same as username");
+    return;}
+
+  if (isLoading.value){return}
+  isLoading.value = true;
+  console.log("loading...");
+  try {
+    const hashPassword = await bcrypt.hash(form.password, 10)
+    await addUserToDB(form.username, hashPassword);
+  }finally {
+    isLoading.value = false;
+    console.log("success")
+    await router.push("/login");
+  }
+}
+
+// your logic here
 
 </script>
 
 <template>
   <div class="box">
     <h2>Register:</h2>
-    <form method="POST">
+    <form @submit.prevent="handleSubmit">
       <div>
-        <label>Username: </label><br>
-        <input type="text" name="name" required maxlength="12" placeholder="username..." />
+        <label>Username: </label>
+        <br>
+        <input v-model="form.username" type="text" required maxlength="12"  />
       </div>
       <br>
       <div>
-        <label>Password: </label><br>
-        <input type="password" name="password" required maxlength="12" placeholder="password..." />
+        <label>Password: </label>
+        <br>
+        <input v-model="form.password" type="password" required maxlength="12"  />
       </div>
       <br>
       <div>
         <label>Password again: </label><br>
-        <input type="password" name="password_confirm" required maxlength="12" placeholder="password again..." />
+        <input v-model="form.passwordAgain" type="password" required maxlength="12"  minlength="5" />
       </div>
       <br>
-      <input type="reset" value="Reset" />
-      <input type="submit" value="Register" />
+      <input type="reset" value="Reset" @click="Object.assign(form, { username: '', password: '', passwordAgain: '' })" />
+      <input type="submit" value="Register" :disabled="isLoading"  />
     </form>
   </div>
 </template>

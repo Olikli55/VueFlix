@@ -1,6 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 import {onMounted} from "vue";
 import type {videoDB} from "@/types.ts";
+import { useToast } from 'vue-toast-notification'
+const toast = useToast()
+
 
 // Vite exposes environment variables using import.meta.env
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -29,6 +32,36 @@ export async function fetchAll(videoType: string): Promise<videoDB[]> {
 
     if (error) {throw error;}
     if (data) {return data;}
-    throw new Error('no data!!')
+    throw new Error('where is MY data????')
 
+}export async function addUserToDB(username: string, password: string): Promise<void> {
+    //duplicate chek
+    const { data: existing } = await supabase // data renamed to existing to avoid collision
+        .from("users")
+        .select("username")
+        .eq("username", username)
+        .single()
+
+    if (existing) {
+        alert("User already exists!")
+        throw new Error("the username already exists");}
+
+    const { error } = await supabase
+        .from("users")
+        .insert({username: username, password: password})
+
+    if (error) {throw error}
+
+}
+
+export async function chekUserFromDB(username:string):Promise<string> {
+    const{data,error} = await supabase
+        .from("users")
+        .select("password")
+        .eq("username", username)
+        .single()
+
+    if (error) {throw error}
+    console.log(data);
+    return String(data.password);
 }

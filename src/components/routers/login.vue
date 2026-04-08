@@ -1,23 +1,60 @@
 <script setup lang="ts">
+import {reactive, ref} from 'vue'
+import {chekUserFromDB} from '@/database.ts'
+import { useRouter } from 'vue-router'
+import bcrypt from 'bcryptjs'
+
+const router = useRouter()
+
+const form = reactive({
+  username: '',
+  password: '',})
+const isLoading = ref(false);
+async function handleSubmit() {
+  if(isLoading.value) {return}
+  isLoading.value = true
+
+  try {
+    let password:string = await chekUserFromDB(form.username);
+    let password2:string = await bcrypt.hash(form.password, 10);
+
+    console.log(bcrypt.compare(form.password, password));
+    if (!password) {
+      throw new Error("no hash ")
+    }
+    if(bcrypt.compareSync(form.password, password)) {
+      console.log("logged in ")
+      await router.push("/account");
+
+    }else {
+      console.log("wrong password")
+
+    }
+  }finally {
+    isLoading.value = false
+  }
+}
 
 </script>
 
 <template>
   <div class="box">
     <h2>Login:</h2>
-    <form method="POST">
+    <form @submit.prevent="handleSubmit">
       <div>
-        <label>Username: </label><br>
-        <input type="text" name="name" required maxlength="12" placeholder="username..." />
+        <label>Username: </label>
+        <br>
+        <input v-model="form.username" type="text" required maxlength="12"  />
       </div>
       <br>
       <div>
-        <label>Password: </label><br>
-        <input type="password" name="password" required maxlength="12" placeholder="password..." />
+        <label>Password: </label>
+        <br>
+        <input v-model="form.password" type="password" required maxlength="12"  />
       </div>
       <br>
-      <input type="reset" value="Reset" />
-      <input type="submit" value="Register" />
+      <input type="reset" value="Reset" @click="Object.assign(form, { username: '', password: '', passwordAgain: '' })" />
+      <input type="submit" :value="isLoading ? 'Loading...' : 'Login'" :disabled="isLoading" />
     </form>
   </div>
 </template>

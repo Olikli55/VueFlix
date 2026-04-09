@@ -31,20 +31,21 @@ async function handelCommentPost(){
 
   //locally added comments so there is less load on the database
   if (!data.value) return
-  data.value.comments ??= []
-  data.value.comments.push({
-    username: token.value.username,
-    txt: comment.txt,
-    date: new Date().toISOString()
+    data.value.comments = Array.isArray(data.value.comments)
+        ? data.value.comments
+        : []
+
+    data.value.comments.push({
+      username: token.value.username,
+      txt: comment.txt,
+      date: new Date().toISOString()
+
   })
-  console.log(data.value.comments);
 
 
-  await addCommentToDB(({
-    username: token.value.username,
-    txt: comment.txt,
-    date: new Date().toISOString()
-  }),videoType, Number(id) )
+
+
+  await addCommentToDB(data.value.comments,videoType, Number(id) )
 
   Object.assign(comment, {replyTo:'', txt:''});
 }
@@ -72,14 +73,20 @@ async function handelCommentPost(){
       <section class="comments-section">
         <h2>Comments</h2>
       <div v-if="token">
-        true: {{ data.comments }} //
+
         <div v-if="data.comments " class="comments-list">
 
           <div
               v-for="(comment, index) in data.comments"
               :key="index"
               class="comment-box">
-            {{comment}}
+
+              <div class="comment-meta">
+                <span class="comment-username">{{ comment.username }}</span>
+                <span class="comment-date">{{ comment.date }}</span>
+              </div>
+              <p class="comment-text">{{ comment.txt }}</p>
+
           </div>
         </div>
         <div>
@@ -108,9 +115,7 @@ async function handelCommentPost(){
 
 </style>
 <style >
-/* =========================================
-Detail Page Layout
-========================================= */
+
 .detail-page {
 max-width: 800px;
 margin: 0 auto;
@@ -120,9 +125,7 @@ gap: 30px;
 padding: 20px;
 }
 
-/* =========================================
-Main Detail Card
-========================================= */
+
 .detail-card {
 background: linear-gradient(145deg, #260909 0%, #140202 100%);
 border: 1px solid crimson;
@@ -217,6 +220,21 @@ input[type="text"]:focus{
   border-color: #ff4444;
 }
 
-
+.comment-meta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+.comment-username {
+  color: #ff6b4a;
+  font-weight: bold;
+}
+.comment-date {
+  color: #888;
+}
+.comment-text {
+  margin: 0;
+}
 
 </style>

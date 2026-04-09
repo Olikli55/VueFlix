@@ -16,7 +16,6 @@ async function handleSubmit() {
 
   try {
     let password:string = await chekUserFromDB(form.username);
-    let password2:string = await bcrypt.hash(form.password, 10);
 
     console.log(bcrypt.compare(form.password, password));
     if (!password) {

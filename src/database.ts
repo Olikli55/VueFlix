@@ -66,10 +66,10 @@ export async function chekUserFromDB(username:string):Promise<string> {
     return String(data.password);
 }
 
-export async function addCommentToDB(comment:Comment, videoType: string,id:number ):Promise<void> {
+export async function addCommentToDB(comments:Comment[], videoType: string,id:number ):Promise<void> {
     const{error} = await supabase
         .from(videoType)
-        .update({comments: comment})
+        .update({comments: comments})
         .eq("id", id)
 
     if (error) {throw error}

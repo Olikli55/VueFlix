@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import {computed, reactive} from 'vue'
 import {onMounted, ref} from "vue";
-import type {videoDB} from "@/types.ts";
-import {fetchAll, fetchById} from "@/database.ts";
+import type {videoDB, Comment} from "@/types.ts";
+import {fetchAll, fetchById, addCommentToDB} from "@/database.ts";
 
 
 const route = useRoute()
@@ -13,9 +13,41 @@ const videoType = route.meta.videoType as string
 const data = ref<videoDB>()
 onMounted(async () => { //makes the function onMounted asynchronous
   data.value = await fetchById(videoType, Number(id))  //wait to get the data
+  console.log(data.value.comments);
+
+})
+
+const token = ref(JSON.parse(localStorage.getItem("token") ?? "null"))
+
+
+const comment = reactive({
+  replyTo: "",
+  txt:"",
 })
 
 
+async function handelCommentPost(){
+  console.log(comment.txt)
+
+  //locally added comments so there is less load on the database
+  if (!data.value) return
+  data.value.comments ??= []
+  data.value.comments.push({
+    username: token.value.username,
+    txt: comment.txt,
+    date: new Date().toISOString()
+  })
+  console.log(data.value.comments);
+
+
+  await addCommentToDB(({
+    username: token.value.username,
+    txt: comment.txt,
+    date: new Date().toISOString()
+  }),videoType, Number(id) )
+
+  Object.assign(comment, {replyTo:'', txt:''});
+}
 
 </script>
 
@@ -39,15 +71,31 @@ onMounted(async () => { //makes the function onMounted asynchronous
 
       <section class="comments-section">
         <h2>Comments</h2>
+      <div v-if="token">
+        true: {{ data.comments }} //
+        <div v-if="data.comments " class="comments-list">
 
-        <div v-if="data.comments && data.comments.length > 0" class="comments-list">
           <div
               v-for="(comment, index) in data.comments"
               :key="index"
               class="comment-box">
-
+            {{comment}}
           </div>
         </div>
+        <div>
+          <form @submit.prevent="handelCommentPost">
+            <input v-model="comment.txt" type="text" minlength="1" maxlength="150" required  />
+            <input type="submit" value="Comment"  />
+          </form>
+        </div>
+      </div>
+      <div
+            v-else>
+          <h4>login to view/write comments</h4>
+          <RouterLink class="SelectButton" to="/login">login</RouterLink>
+
+
+      </div>
 
       </section>
 
@@ -145,6 +193,30 @@ box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 margin: 0;
 line-height: 1.5;
 }
+input[type="submit"] {
+  background: linear-gradient(#ac0303, #880000);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+input[type="text"]{
+  width: 94%;
+  padding: 8px;
+  margin-top: 4px;
+  background: #0d0000;
+  border: 1px solid #cc0000;
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input[type="text"]:focus{
+  outline: none;
+  border-color: #ff4444;
+}
+
 
 
 </style>

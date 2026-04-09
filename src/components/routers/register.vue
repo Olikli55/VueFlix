@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import {reactive, ref} from 'vue'
 import {addUserToDB} from "@/database.ts"
-import { useRouter } from 'vue-router'
-import bcrypt from 'bcryptjs'
+import { useRouter } from "vue-router"
+import bcrypt from "bcryptjs"
 
 const router = useRouter()
 
 const form = reactive({
-  username: '',
-  password: '',
-  passwordAgain: ''
+  username: "",
+  password:"",
+  passwordAgain:"",
 })
 const isLoading = ref(false);
 
@@ -51,7 +51,7 @@ async function handleSubmit() {
       <div>
         <label>Password: </label>
         <br>
-        <input v-model="form.password" type="password" required maxlength="12"  />
+        <input v-model="form.password" type="password" required maxlength="12" minlength="5"  />
       </div>
       <br>
       <div>
@@ -60,7 +60,7 @@ async function handleSubmit() {
       </div>
       <br>
       <input type="reset" value="Reset" @click="Object.assign(form, { username: '', password: '', passwordAgain: '' })" />
-      <input type="submit" value="Register" :disabled="isLoading"  />
+      <input type="submit" :value="isLoading ? 'Loading...' : 'Register'" :disabled="isLoading" />
     </form>
   </div>
 </template>

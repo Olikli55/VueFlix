@@ -24,6 +24,7 @@ async function handleSubmit() {
     }
     if(bcrypt.compareSync(form.password, password)) {
       console.log("logged in ")
+      localStorage.setItem('token', JSON.stringify({username: form.username}))
       await router.push("/account");
 
     }else {

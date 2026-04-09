@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import {onMounted} from "vue";
-import type {videoDB} from "@/types.ts";
+import type {videoDB , Comment} from "@/types.ts";
 import { useToast } from 'vue-toast-notification'
 const toast = useToast()
 
@@ -64,4 +64,13 @@ export async function chekUserFromDB(username:string):Promise<string> {
     if (error) {throw error}
     console.log(data);
     return String(data.password);
+}
+
+export async function addCommentToDB(comment:Comment, videoType: string,id:number ):Promise<void> {
+    const{error} = await supabase
+        .from(videoType)
+        .update({comments: comment})
+        .eq("id", id)
+
+    if (error) {throw error}
 }

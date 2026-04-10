@@ -16,22 +16,34 @@ onMounted(async () => { //makes the onMounted asynchronous
 
 
 <template>
-  <h3 class="badge">Films</h3>
+  <div class="section-header">
+    <h2 class="section-title">Films</h2>
+    <span class="section-count">{{ data.length }} title{{ data.length !== 1 ? 's' : '' }}</span>
+  </div>
   <item-list-component :data="data" :videoType="'films'" />
 </template>
 
 <style src="../../Style/style.css" scoped></style>
 
 <style>
-.badge {
-  display: inline-block;
-  background: #000000;
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(220, 20, 60, 0.4);
+  padding-bottom: 10px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
   color: #ffffff;
-  padding: 4px 12px;
-  border-radius: 20px;
+}
+
+.section-count {
   font-size: 0.85rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.45);
 }
 </style>

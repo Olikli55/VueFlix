@@ -1,82 +1,104 @@
 
-.items-container{
+.items-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 24px;
     align-items: start;
 }
-
 
 .film,
 .item,
 .serial {
     width: 150px;
-    height: 100px;
     border: 1px solid crimson;
     border-radius: 1rem;
-    background: #9e3e3e;
     background: radial-gradient(circle, #9e3e3e 0%, #000000 100%);
     text-align: center;
 }
+
 .item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 16px; /* Add some padding so the button doesn't touch the exact edge */
+    padding: 20px 16px 16px;
+    width: 100%;
+    min-height: 130px;
+    border: 1px solid rgba(220, 20, 60, 0.6);
+    border-radius: 1rem;
+    background: linear-gradient(145deg, #1c0505 0%, #0d0000 100%);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
 
-    /* (Keep your other styles like border, background, aspect-ratio here) */
+.item:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(220, 20, 60, 0.35);
+    border-color: crimson;
 }
 
 .item-name {
-    margin: auto 0; /* Pushes equally from top and bottom to stay centered */
-    font-weight: bold;
+    margin: auto 0;
+    font-weight: 600;
+    font-size: 1rem;
     text-align: center;
+    color: #f0f0f0;
 }
+
 .item .SelectButton {
-    margin-top: auto; /* This forces the button to the very bottom! */
-    width: 80%;       /* Optional: makes the button look nicely proportioned inside the card */
+    margin-top: auto;
+    width: 80%;
     text-align: center;
 }
 
+/* ── Navigation ── */
 .selection {
     display: flex;
-    justify-content: center;
-    padding: 8px;
-    background: #ab2409;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 16px;
+    background: #140000;
+    border-bottom: 2px solid rgba(220, 20, 60, 0.4);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
+
 .SelectButtonHome,
 .SelectButton {
-    margin: 0 6px;
-    padding: 8px 12px;
+    margin: 0 4px;
+    padding: 7px 14px;
     border: none;
-    border-radius: 8px;
-    background: #260909;
-    color: #fff;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.07);
+    color: #f0f0f0;
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
     text-decoration: none;
     cursor: pointer;
-}
-main {
-    min-height: 60vh;
-    padding: 16px;
-    background: #751a0c;
-    background: linear-gradient(156deg, #751a0c 0%, #000000 50%, #7d0a0a 100%);
-    color: #fff;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
-footer {
-    padding: 10px;
-    background: #751a0c;
-    background: linear-gradient(360deg, #751a0c 0%, #200503 44%, #140202 100%, #7d0a0a 100%);
-    text-align: center;
+.SelectButtonHome:hover,
+.SelectButton:hover {
+    background: rgba(220, 20, 60, 0.5);
+    color: #ffffff;
 }
-.selection {
-    display: flex;
-    justify-content: flex-start;  /* left-align nav links */
-    padding: 8px;
-    background: #ab2409;
-}
+
 .spacer {
     flex: 1;
+}
+
+/* ── Main content area ── */
+main {
+    min-height: 60vh;
+    padding: 24px 20px;
+    background: linear-gradient(160deg, #1a0303 0%, #0d0000 55%, #1a0303 100%);
+    color: #f0f0f0;
+}
+
+/* ── Footer ── */
+footer {
+    padding: 16px 20px;
+    background: #0d0000;
+    border-top: 1px solid rgba(220, 20, 60, 0.25);
+    text-align: center;
 }
